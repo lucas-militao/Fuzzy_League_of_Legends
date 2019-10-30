@@ -1,0 +1,148 @@
+
+FUNCTION_BLOCK classification // Block definition (there may be more than one block per file)
+
+// Define input variables
+VAR_INPUT
+        damage : REAL;
+        resistance : REAL;
+        reach : REAL;
+        utility : REAL;
+END_VAR
+
+// Define output variable
+VAR_OUTPUT
+        champclass : REAL;
+END_VAR
+
+FUZZIFY damage
+        TERM poor := (0.0,1.0) (5.0,0.0);
+        TERM average := (0.0, 0.0) (5.0,1.0) (10.0,0.0);
+        TERM good := (5.0,0.0) (10.0,1.0);
+END_FUZZIFY
+
+FUZZIFY resistance
+        TERM poor := (0.0,1.0) (5.0,0.0);
+        TERM average := (1.0, 0.0) (5.0,1) (10.0,0.0);
+        TERM good := (5.0,0.0) (10.0,1.0);
+END_FUZZIFY
+
+FUZZIFY reach
+        TERM poor := (0,1.0) (5.0,0.0);
+        TERM average := (1.0, 0.0) (5.0,1.0) (10.0,0.0);
+        TERM good := (5.0,0.0) (10.0,1.0);
+END_FUZZIFY
+
+FUZZIFY utility
+        TERM poor := (0.0,1.0) (5.0,0.0);
+        TERM average := (1.0, 0.0) (5.0,1.0) (10.0,0.0);
+        TERM good := (5.0,0.0) (10.0,1.0);
+END_FUZZIFY
+
+DEFUZZIFY champclass
+        TERM mage := (0.0,0.0) (5.0,1.0) (10.0,0.0);
+        TERM fighter := (5.0,0.0) (10.0,1.0) (15.0,0.0);
+        TERM tank := (10.0,0.0) (15.0,1.0) (20.0,0.0);
+        TERM shooter := (15.0,0.0) (20.0,1.0) (25.0,0.0);
+        TERM support := (20.0,0.0) (25.0,1.0) (30.0,0.0);
+        METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
+        DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)
+END_DEFUZZIFY
+
+RULEBLOCK No1
+        AND : MIN;	// Use 'min' for 'and'
+        ACT : MIN;	// Use 'min' activation method
+        ACCU : MAX;	// Use 'max' accumulation method
+
+
+        RULE 1 : IF damage IS poor AND resistance IS poor AND reach IS poor AND utility IS poor THEN champclass IS shooter;
+        RULE 2 : IF damage IS poor AND resistance IS poor AND reach IS poor AND utility IS average THEN champclass IS support;
+        RULE 3 : IF damage IS poor AND resistance IS poor AND reach IS poor AND utility IS good THEN champclass IS support;
+        RULE 4 : IF damage IS poor AND resistance IS poor AND reach IS average AND utility IS poor THEN champclass IS mage;
+        RULE 5 : IF damage IS poor AND resistance IS poor AND reach IS average AND utility IS average THEN champclass IS mage;
+        RULE 6 : IF damage IS poor AND resistance IS poor AND reach IS average AND utility IS good THEN champclass IS mage, champclass IS support;
+        RULE 7 : IF damage IS poor AND resistance IS poor AND reach IS good AND utility IS poor THEN champclass IS shooter;
+        RULE 8 : IF damage IS poor AND resistance IS poor AND reach IS good AND utility IS average THEN champclass IS shooter;
+        RULE 9 : IF damage IS poor AND resistance IS poor AND reach IS good AND utility IS good THEN champclass IS support, champclass IS shooter;
+        RULE 10 : IF damage IS poor AND resistance IS average AND reach IS poor AND utility IS poor THEN champclass IS fighter;
+        RULE 11 : IF damage IS poor AND resistance IS average AND reach IS poor AND utility IS average THEN champclass IS fighter;
+        RULE 12 : IF damage IS poor AND resistance IS average AND reach IS poor AND utility IS good THEN champclass IS fighter, champclass IS support;
+        RULE 13 : IF damage IS poor AND resistance IS average AND reach IS average AND utility IS poor THEN champclass IS mage;
+        RULE 14 : IF damage IS poor AND resistance IS average AND reach IS average AND utility IS average THEN champclass IS mage;
+        RULE 15 : IF damage IS poor AND resistance IS average AND reach IS average AND utility IS good THEN champclass IS mage, champclass IS support;
+        RULE 16 : IF damage IS poor AND resistance IS average AND reach IS good AND utility IS poor THEN champclass IS shooter;
+        RULE 17 : IF damage IS poor AND resistance IS average AND reach IS good AND utility IS average THEN champclass IS shooter;
+        RULE 18 : IF damage IS poor AND resistance IS average AND reach IS good AND utility IS good THEN champclass IS  support, champclass IS shooter;
+        RULE 19 : IF damage IS poor AND resistance IS good AND reach IS poor AND utility IS poor THEN champclass IS tank;
+        RULE 20 : IF damage IS poor AND resistance IS good AND reach IS poor AND utility IS average THEN champclass IS tank;
+        RULE 21 : IF damage IS poor AND resistance IS good AND reach IS poor AND utility IS good THEN champclass IS support, champclass IS tank;
+        RULE 22 : IF damage IS poor AND resistance IS good AND reach IS average AND utility IS poor THEN champclass IS mage, champclass IS tank;
+        RULE 23 : IF damage IS poor AND resistance IS good AND reach IS average AND utility IS average THEN champclass IS mage, champclass IS tank;
+        RULE 24 : IF damage IS poor AND resistance IS good AND reach IS average AND utility IS good THEN champclass IS mage, champclass IS support, champclass IS tank;
+        RULE 25: IF damage IS poor AND resistance IS good AND reach IS good AND utility IS poor THEN champclass IS  tank, champclass IS shooter;
+        RULE 26 : IF damage IS poor AND resistance IS good AND reach IS good AND utility IS average THEN champclass IS  tank, champclass IS shooter;
+        RULE 27 : IF damage IS poor AND resistance IS good AND reach IS good AND utility IS good THEN champclass IS  support, champclass IS tank, champclass IS shooter;
+        RULE 28 : IF damage IS average AND resistance IS poor AND reach IS poor AND utility IS poor THEN champclass IS fighter;
+        RULE 29 : IF damage IS average AND resistance IS poor AND reach IS poor AND utility IS average THEN champclass IS support;
+        RULE 30 : IF damage IS average AND resistance IS poor AND reach IS poor AND utility IS good THEN champclass IS  support;
+        RULE 31 : IF damage IS average AND resistance IS poor AND reach IS average AND utility IS poor THEN champclass IS mage;
+        RULE 32 : IF damage IS average AND resistance IS poor AND reach IS average AND utility IS average THEN champclass IS mage;
+        RULE 33 : IF damage IS average AND resistance IS poor AND reach IS average AND utility IS good THEN champclass IS mage, champclass IS support;
+        RULE 34: IF damage IS average AND resistance IS poor AND reach IS good AND utility IS poor THEN champclass IS shooter;
+        RULE 35 : IF damage IS average AND resistance IS poor AND reach IS good AND utility IS average THEN champclass IS shooter;
+        RULE 36 : IF damage IS average AND resistance IS poor AND reach IS good AND utility IS good THEN champclass IS  support, champclass IS shooter;
+        RULE 37 : IF damage IS average AND resistance IS average AND reach IS poor AND utility IS poor THEN champclass IS fighter;
+        RULE 38 : IF damage IS average AND resistance IS average AND reach IS poor AND utility IS average THEN champclass IS fighter;
+        RULE 39 : IF damage IS average AND resistance IS average AND reach IS poor AND utility IS good THEN champclass IS fighter, champclass IS support;
+        RULE 40 : IF damage IS average AND resistance IS average AND reach IS average AND utility IS poor THEN champclass IS mage;
+        RULE 41 : IF damage IS average AND resistance IS average AND reach IS average AND utility IS average THEN champclass IS mage;
+        RULE 42 : IF damage IS average AND resistance IS average AND reach IS average AND utility IS good THEN champclass IS mage, champclass IS support;
+        RULE 43 : IF damage IS average AND resistance IS average AND reach IS good AND utility IS poor THEN champclass IS shooter;
+        RULE 44 : IF damage IS average AND resistance IS average AND reach IS good AND utility IS average THEN champclass IS shooter;
+        RULE 45 : IF damage IS average AND resistance IS average AND reach IS good AND utility IS good THEN champclass IS  support, champclass IS shooter;
+        RULE 46 : IF damage IS average AND resistance IS good AND reach IS poor AND utility IS poor THEN champclass IS  tank;
+        RULE 47 : IF damage IS average AND resistance IS good AND reach IS poor AND utility IS average THEN champclass IS  tank;
+        RULE 48 : IF damage IS average AND resistance IS good AND reach IS poor AND utility IS good THEN champclass IS  support, champclass IS tank;
+        RULE 49 : IF damage IS average AND resistance IS good AND reach IS average AND utility IS poor THEN champclass IS mage, champclass IS tank;
+        RULE 50 : IF damage IS average AND resistance IS good AND reach IS average AND utility IS average THEN champclass IS mage, champclass IS tank;
+        RULE 51 : IF damage IS average AND resistance IS good AND reach IS average AND utility IS good THEN champclass IS mage, champclass IS support, champclass IS tank;
+        RULE 52 : IF damage IS average AND resistance IS good AND reach IS good AND utility IS poor THEN champclass IS  tank, champclass IS shooter;
+        RULE 53 : IF damage IS average AND resistance IS good AND reach IS good AND utility IS average THEN champclass IS tank, champclass IS shooter;
+        RULE 54 : IF damage IS average AND resistance IS good AND reach IS good AND utility IS good THEN champclass IS support, champclass IS tank, champclass IS shooter;
+        RULE 55 : IF damage IS good AND resistance IS poor AND reach IS poor AND utility IS poor THEN champclass IS fighter;
+        RULE 56 : IF damage IS good AND resistance IS poor AND reach IS poor AND utility IS average THEN champclass IS support;
+        RULE 57 : IF damage IS good AND resistance IS poor AND reach IS poor AND utility IS good THEN champclass IS support;
+        RULE 58 : IF damage IS good AND resistance IS poor AND reach IS average AND utility IS poor THEN champclass IS mage;
+        RULE 59 : IF damage IS good AND resistance IS poor AND reach IS average AND utility IS average THEN champclass IS mage;
+        RULE 60 : IF damage IS good AND resistance IS poor AND reach IS average AND utility IS good THEN champclass IS mage, champclass IS support;
+        RULE 61 : IF damage IS good AND resistance IS poor AND reach IS good AND utility IS poor THEN champclass IS shooter;
+        RULE 62 : IF damage IS good AND resistance IS poor AND reach IS good AND utility IS average THEN champclass IS shooter;
+        RULE 63 : IF damage IS good AND resistance IS poor AND reach IS good AND utility IS good THEN champclass IS  support, champclass IS shooter;
+        RULE 64 : IF damage IS good AND resistance IS average AND reach IS poor AND utility IS poor THEN champclass IS fighter;
+        RULE 65 : IF damage IS good AND resistance IS average AND reach IS poor AND utility IS average THEN champclass IS fighter;
+        RULE 66 : IF damage IS good AND resistance IS average AND reach IS poor AND utility IS good THEN champclass IS fighter, champclass IS support;
+        RULE 67 : IF damage IS good AND resistance IS average AND reach IS average AND utility IS poor THEN champclass IS mage;
+        RULE 68 : IF damage IS good AND resistance IS average AND reach IS average AND utility IS average THEN champclass IS mage;
+        RULE 69 : IF damage IS good AND resistance IS average AND reach IS average AND utility IS good THEN champclass IS mage, champclass IS support;
+        RULE 70 : IF damage IS good AND resistance IS average AND reach IS good AND utility IS poor THEN champclass IS shooter;
+        RULE 71 : IF damage IS good AND resistance IS average AND reach IS good AND utility IS average THEN champclass IS shooter;
+        RULE 72 : IF damage IS good AND resistance IS average AND reach IS good AND utility IS good THEN champclass IS  support, champclass IS shooter;
+        RULE 73 : IF damage IS good AND resistance IS good AND reach IS poor AND utility IS poor THEN champclass IS  tank;
+        RULE 74 : IF damage IS good AND resistance IS good AND reach IS poor AND utility IS average THEN champclass IS  tank;
+        RULE 75 : IF damage IS good AND resistance IS good AND reach IS poor AND utility IS good THEN champclass IS  support, champclass IS tank;
+        RULE 76 : IF damage IS good AND resistance IS good AND reach IS average AND utility IS poor THEN champclass IS mage, champclass IS tank;
+        RULE 77 : IF damage IS good AND resistance IS good AND reach IS average AND utility IS average THEN champclass IS mage, champclass IS tank;
+        RULE 78 : IF damage IS good AND resistance IS good AND reach IS average AND utility IS good THEN champclass IS mage, champclass IS support, champclass IS tank;
+        RULE 79 : IF damage IS good AND resistance IS good AND reach IS good AND utility IS poor THEN champclass IS  tank, champclass IS shooter;
+        RULE 80 : IF damage IS good AND resistance IS good AND reach IS good AND utility IS average THEN champclass IS  tank, champclass IS shooter;
+        RULE 81 : IF damage IS good AND resistance IS good AND reach IS good AND utility IS good THEN champclass IS support, champclass IS tank, champclass IS shooter;
+
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK
+
+
+
+
+
+
+
