@@ -39,33 +39,6 @@ public class ChampClassification {
             System.out.println(e.getMessage());
         }
 
-//        FIS fis = getFCLFromFile();
-//
-//        fis.setVariable("damage", 10);
-//        fis.setVariable("resistance", 1);
-//        fis.setVariable("reach", 10);
-//        fis.setVariable("utility", 1);
-
-        // mostra os graficos
-//        JFuzzyChart.get().chart(fis);
     }
-
-//    private static FIS getFCLFromFile() {
-//
-//        // Load from 'FCL' file
-//        String fileName = "./src/champClassification.fcl";
-//        FIS fis = FIS.load(fileName, true);
-//
-//        if (fis == null) {
-//            System.err.println("Can't load file: '" + fileName + "'");
-//            return null;
-//        }
-//
-//        fis.evaluate();
-//
-//        System.out.println(fis.getVariable("champclass").getValue());
-//
-//        return fis;
-//    }
 
 }
