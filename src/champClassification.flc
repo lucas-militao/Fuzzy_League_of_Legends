@@ -53,21 +53,20 @@ FUZZIFY mobility
 END_FUZZIFY
 
 DEFUZZIFY champclass
-        TERM mage := (0.0,0.0) (5.0,1.0) (10.0,0.0);
-        TERM fighter := (5.0,0.0) (10.0,1.0) (15.0,0.0);
-        TERM tank := (10.0,0.0) (15.0,1.0) (20.0,0.0);
-        TERM shooter := (15.0,0.0) (20.0,1.0) (25.0,0.0);
-        TERM support := (20.0,0.0) (25.0,1.0) (30.0,0.0);
-        TERM assassin := (25.0,0.0) (30.0,1.0) (35.0,0.0);
-        METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
-        DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)
+        TERM shooter := (0.0,0.0) (5.0,1.0) (10.0,0.0);
+        TERM assassin := (5.0,0.0) (10.0,1.0) (25.0,0.0);
+        TERM mage := (10.0,0.0) (15.0,1.0) (20.0,0.0);
+        TERM fighter := (15.0,0.0) (20.0,1.0) (25.0,0.0);
+        TERM tank := (20.0,0.0) (25.0,1.0) (30.0,0.0);
+        TERM support := (25.0,0.0) (30.0,1.0) (35.0,0.0);
+        METHOD : COG; // Use 'Center Of Gravity' defuzzification method
+        DEFAULT := 0; // Default value is 0 (if no rule activates defuzzifier)
 END_DEFUZZIFY
 
 RULEBLOCK No1
         AND : MIN;	// Use 'min' for 'and'
         ACT : MIN;	// Use 'min' activation method
         ACCU : MAX;	// Use 'max' accumulation method
-
 
         RULE 1 : IF damage is good AND resistance IS poor AND groupcontrol IS poor AND mobility IS poor AND utility IS poor AND reach IS good THEN champclass IS shooter;
         RULE 2 : IF damage is good AND resistance IS poor AND groupcontrol IS average AND mobility IS poor AND utility IS poor AND reach IS good THEN champclass IS mage;
@@ -89,6 +88,25 @@ RULEBLOCK No1
         RULE 18 : IF damage is average AND resistance IS average AND groupcontrol IS average AND mobility IS good AND utility IS poor AND reach IS poor THEN champclass IS fighter;
         RULE 19 : IF damage is good AND resistance IS poor AND groupcontrol IS poor AND mobility IS poor AND utility IS poor AND reach IS average THEN champclass IS mage;
         RULE 20 : IF damage is poor AND resistance IS good AND groupcontrol IS poor AND mobility IS poor AND utility IS poor AND reach IS average THEN champclass IS tank;
+        RULE 21 : IF damage is poor AND resistance IS good AND groupcontrol IS poor AND utility IS average THEN champclass IS support, champclass IS tank;
+        RULE 22 : IF damage IS good AND mobility IS good AND groupcontrol IS average AND reach IS average THEN champclass IS mage, champclass IS assassin;
+
+        //Primary rules
+        RULE 23 : IF damage IS good AND mobility IS good THEN champclass IS assassin
+        RULE 24 : IF resistance IS good THEN champclass IS tank
+        RULE 25 : IF damage IS good AND reach IS good THEN champclass IS shooter
+        RULE 26 : IF damage IS poor AND utility IS good THEN champclass IS support
+        RULE 26 : IF damage IS poor AND utility IS good AND groupcontrol IS average THEN champclass IS support
+        RULE 26 : IF damage IS poor AND utility IS good AND groupcontrol IS good THEN champclass IS support
+        RULE 26 : IF damage IS poor AND utility IS average AND groupcontrol IS good THEN champclass IS support
+        RULE 27 : IF damage IS good AND groupcontrol IS average THEN champclass IS mage
+        RULE 28 : IF damage IS good AND groupcontrol IS good THEN champclass IS mage
+        RULE 29 : IF damage IS average AND mobility IS average AND reach IS poor THEN champclass IS fighter
+        RULE 27 : IF damage IS good AND groupcontrol IS average AND reach IS good THEN champclass IS mage
+        RULE 27 : IF damage IS good AND groupcontrol IS good AND reach IS good THEN champclass IS mage
+
+
+
 
 
 END_RULEBLOCK
