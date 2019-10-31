@@ -21,12 +21,12 @@ public class ChampClassification {
             String conteudoArquivoFis = new String(Files.readAllBytes(arquivoFis.toPath()));
             FIS fis = FIS.createFromString(conteudoArquivoFis, true);
 
-            fis.setVariable("damage", 5.0);
-            fis.setVariable("resistance", 10.0);
-            fis.setVariable("reach", 0.0);
+            fis.setVariable("damage", 10.0);
+            fis.setVariable("resistance", 1.0);
+            fis.setVariable("reach", 5.0);
             fis.setVariable("utility", 1.0);
-            fis.setVariable("groupcontrol", 5.0);
-            fis.setVariable("mobility", 5.0);
+            fis.setVariable("groupcontrol", 3.0);
+            fis.setVariable("mobility", 10.0);
 
             fis.evaluate();
 

@@ -92,21 +92,19 @@ RULEBLOCK No1
         RULE 22 : IF damage IS good AND mobility IS good AND groupcontrol IS average AND reach IS average THEN champclass IS mage, champclass IS assassin;
 
         //Primary rules
-        RULE 23 : IF damage IS good AND mobility IS good THEN champclass IS assassin
-        RULE 24 : IF resistance IS good THEN champclass IS tank
-        RULE 25 : IF damage IS good AND reach IS good THEN champclass IS shooter
-        RULE 26 : IF damage IS poor AND utility IS good THEN champclass IS support
-        RULE 26 : IF damage IS poor AND utility IS good AND groupcontrol IS average THEN champclass IS support
-        RULE 26 : IF damage IS poor AND utility IS good AND groupcontrol IS good THEN champclass IS support
-        RULE 26 : IF damage IS poor AND utility IS average AND groupcontrol IS good THEN champclass IS support
-        RULE 27 : IF damage IS good AND groupcontrol IS average THEN champclass IS mage
-        RULE 28 : IF damage IS good AND groupcontrol IS good THEN champclass IS mage
-        RULE 29 : IF damage IS average AND mobility IS average AND reach IS poor THEN champclass IS fighter
-        RULE 27 : IF damage IS good AND groupcontrol IS average AND reach IS good THEN champclass IS mage
-        RULE 27 : IF damage IS good AND groupcontrol IS good AND reach IS good THEN champclass IS mage
-
-
-
+        RULE 23 : IF damage IS good AND mobility IS good THEN champclass IS assassin;
+        RULE 24 : IF resistance IS good THEN champclass IS tank;
+        RULE 25 : IF damage IS good AND reach IS good THEN champclass IS shooter;
+        RULE 26 : IF damage IS poor AND utility IS good THEN champclass IS support;
+        RULE 27 : IF damage IS poor AND utility IS good AND groupcontrol IS average THEN champclass IS support;
+        RULE 28 : IF damage IS poor AND utility IS good AND groupcontrol IS good THEN champclass IS support;
+        RULE 29 : IF damage IS poor AND utility IS average AND groupcontrol IS good THEN champclass IS support;
+        RULE 30 : IF damage IS good AND groupcontrol IS average THEN champclass IS mage;
+        RULE 31 : IF damage IS good AND groupcontrol IS good THEN champclass IS mage;
+        RULE 32 : IF damage IS average AND mobility IS average AND reach IS poor THEN champclass IS fighter;
+        RULE 33 : IF damage IS good AND groupcontrol IS average AND reach IS good THEN champclass IS mage;
+        RULE 34 : IF damage IS good AND groupcontrol IS good AND reach IS good THEN champclass IS mage;
+        RULE 35: IF damage IS good AND reach IS average AND mobility IS good THEN champclass IS shooter, champclass IS assassin
 
 
 END_RULEBLOCK
